@@ -186,5 +186,15 @@ class DwEvalTestCase(unittest.TestCase):
         self.assertFalse(any("blocking ambiguity" in gate.lower() for gate in result.gate_failures))
 
 
+class JsonlTraceTests(unittest.TestCase):
+    def test_jsonl_trace_events_are_counted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "run.jsonl"
+            path.write_text('{"type": "test", "status": "passed"}\n{"type": "build", "status": "ok"}\n', encoding="utf-8")
+            features = extract_trace_features(load_traces([str(path)]))
+        self.assertEqual(features["test_event_count"], 1)
+        self.assertEqual(features["build_event_count"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()

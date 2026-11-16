@@ -99,7 +99,10 @@ def load_traces(paths: list[str]) -> list[TraceInput]:
         try:
             parsed = json.loads(text)
         except json.JSONDecodeError:
-            parsed = None
+            try:  # JSONL: one event per line
+                parsed = [json.loads(line) for line in text.splitlines() if line.strip()]
+            except json.JSONDecodeError:
+                parsed = None
         traces.append(TraceInput(path=path, text=text, parsed=parsed))
     return traces
 

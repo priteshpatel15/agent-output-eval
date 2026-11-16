@@ -1,0 +1,13 @@
+[project]
+name = "agent-output-eval"
+version = "0.1.0"
+description = "Deterministic scorer for agent deliverables and the traces that produced them"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Pritesh Patel" }]
+
+[project.scripts]
+dw-eval = "dw_eval.cli:main"
+
+[tool.setuptools]
+packages = ["dw_eval"]
